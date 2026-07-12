@@ -144,7 +144,10 @@ describe.skipIf(!v8)('V8 engine receipts', () => {
 
         const filled = new Array(8).fill(0)
         expect(v8?.hasSmiElements(filled)).toBe(true)
-        expect(v8?.hasHoleyElements(filled)).toBe(false)
+        const nodeMajor = Number.parseInt(process.versions.node, 10)
+        // The corrected gate fact is itself versioned: Node 24 compacts this
+        // case, while the Node 18 and 22 V8 builds in CI retain holey SMI.
+        expect(v8?.hasHoleyElements(filled)).toBe(nodeMajor < 24)
     })
 
     it('normalizes heterogeneous values onto one hidden class', () => {
@@ -157,4 +160,3 @@ describe.skipIf(!v8)('V8 engine receipts', () => {
         expect(v8?.haveSameMap(outputs[0], outputs[2])).toBe(true)
     })
 })
-

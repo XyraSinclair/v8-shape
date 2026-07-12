@@ -33,8 +33,10 @@ releaseCaches() // drop the retained allocation templates
 
 ## The honest value proposition
 
-`new Array(n).fill(0)` **also produces packed SMI elements on current V8**.
-`fill` converts the initially holey array to packed. There is no downstream
+`new Array(n).fill(0)` **also produces packed SMI elements on Node 24's V8**.
+There, `fill` converts the initially holey array to packed. (The Node 18 and 22
+builds in this package's CI retain holey SMI after `fill`; the receipt asserts
+that version boundary.) On the benchmarked Node 24 there is no downstream
 elements-kind advantage to `newPackedSmi` over that expression, and sums over
 the resulting arrays are statistical ties. The allocator's advantage is
 allocation speed at cache-friendly sizes and staying packed while it grows.
@@ -146,8 +148,8 @@ Node with `--allow-natives-syntax`; if those intrinsics are unavailable, the
 engine-only block skips with a loud warning while the functional suite still
 runs. The receipt checks each allocator and range kind, zero-length results,
 cache growth past 2,048 and 32,768, non-holey status, a real SMI→double
-transition, the `new Array(n)` holey contrast, packed `fill(0)`, and
-`%HaveSameMap` after normalization.
+transition, the `new Array(n)` holey contrast, versioned `fill(0)` behavior,
+and `%HaveSameMap` after normalization.
 
 Functional coverage includes 5,000 seeded `range` cases against `Array.from`,
 5,000 seeded `rangeBy` cases against the per-index oracle, cache release,
@@ -163,4 +165,3 @@ For the implementation and measurement rationale, see [DESIGN.md](./DESIGN.md).
 ## License
 
 MIT © Xyra Sinclair
-

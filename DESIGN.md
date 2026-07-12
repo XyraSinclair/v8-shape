@@ -55,10 +55,12 @@ can vary. Returned arrays never alias a template.
 ### What `fill(0)` changed
 
 The early origin comments assumed `new Array(n).fill(0)` remained holey. That
-is false on the tested modern V8: `fill` converts the array to packed SMI.
-Accordingly, this package makes no consumer-performance claim over `fill(0)`.
-The native suite locks in the corrected fact, and the consumer receipt reports
-a statistical tie.
+is false on the tested Node 24.13.1 V8: `fill` converts the array to packed SMI.
+The compatibility run also found the statement is versioned—Node 18.20.8 and
+22.23.1 retain holey SMI after `fill`. Accordingly, this package makes no
+consumer-performance claim over `fill(0)` on the benchmarked Node 24. The
+native suite locks in the version boundary, and the Node 24 consumer receipt
+reports a statistical tie.
 
 Cached slicing still avoids some initialization overhead at small and medium
 sizes. It is not universally fastest: above the 32,768 cache ceiling it pays
@@ -142,7 +144,8 @@ The receipt asserts:
 - SMI and float-step range allocation, plus natural `times` transitions;
 - mutation of a packed SMI result to a double really changes the observed
   kind, proving the predicates are live;
-- `new Array(n)` is holey while `new Array(n).fill(0)` is packed SMI;
+- `new Array(n)` is holey; `fill(0)` remains SMI and is packed on Node 24 but
+  stays holey on the Node 18 and 22 builds in CI;
 - `%HaveSameMap` across normalized heterogeneous objects.
 
 These names are internal V8 debugging interfaces, not stable ECMAScript APIs.
@@ -191,4 +194,3 @@ The implementation uses standard JavaScript and returns correct values on
 other engines. Representation and speed claims apply only to tested V8 builds.
 JavaScriptCore and SpiderMonkey may make different allocation, transition, and
 inline-cache choices; none are claimed here.
-
