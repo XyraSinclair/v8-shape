@@ -101,6 +101,15 @@ describe('rangeBy', () => {
         expect(rangeBy(8, 3, 1)).toEqual([])
     })
 
+    it('rejects huge finite counts fast — no rounding-plateau hang (review finding 1)', () => {
+        // Pre-fix these spun ~1e284 iterations in the correction loop; the
+        // over-max estimate must be rejected BEFORE the loops run.
+        const started = performance.now()
+        expect(() => rangeBy(0, 1e300, 1)).toThrow(RangeError)
+        expect(() => rangeBy(1e300, 1.0000000000000002e300, 1)).toThrow(RangeError)
+        expect(performance.now() - started).toBeLessThan(1000)
+    }, 10_000)
+
     it('computes each float from its index instead of accumulating drift', () => {
         const start = -3.7
         const end = 101.9

@@ -121,6 +121,12 @@ function rangeByLength(start: number, end: number, step: number): number {
     if (!Number.isFinite(length)) {
         throw new RangeError('rangeBy result length exceeds the maximum array length')
     }
+    // Reject huge FINITE estimates BEFORE the correction loops: when step is
+    // far below ulp(end), the decrement loop walks a rounding plateau one
+    // step at a time (~ulp(end)/(2·step) iterations — an effective hang for
+    // counts like 1e284). The estimate tracks the true count to within a
+    // few ULPs, so any over-max estimate is already invalid.
+    assertArrayLength(length)
 
     // Make the end-exclusive rule depend on the documented per-index value,
     // even when the division used for the first estimate rounds at a boundary.

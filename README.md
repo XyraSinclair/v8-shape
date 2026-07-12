@@ -6,6 +6,8 @@ monomorphic. The claims are tested against V8 itself with
 `%HasSmiElements`, `%HasDoubleElements`, `%HasHoleyElements`, and
 `%HaveSameMap`—not inferred from timings.
 
+ESM-only, zero runtime dependencies, TypeScript declarations included.
+
 ```ts
 import {
     newPackedDouble,
@@ -92,8 +94,8 @@ without making it holey.
 
 The module lazily retains one template per kind, initially 2,048 entries and
 growing to at most 32,768. V8's backing-store capacity and accounting are
-engine details, but the three caches can retain roughly 1.6 MB in the original
-measurement. `releaseCaches()` clears all three module references; arrays
+engine details, but the three caches can retain roughly 0.8-1.6 MB at ceiling depending
+on the V8 build (0.84 MB measured on Node 24). `releaseCaches()` clears all three module references; arrays
 already returned are independent and unaffected. A later allocation recreates
 the cache it needs.
 
