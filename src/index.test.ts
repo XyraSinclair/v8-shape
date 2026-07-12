@@ -143,6 +143,7 @@ describe('rangeBy', () => {
         [NaN, 1, 1],
         [0, Infinity, 1],
         [0, 1, -Infinity],
+        [-Number.MAX_VALUE, Number.MAX_VALUE, 1],
     ])('rejects invalid arguments: %s, %s, %s', (start, end, step) => {
         expect(() => rangeBy(start, end, step)).toThrow(RangeError)
     })
@@ -242,6 +243,6 @@ describe('sameShape', () => {
     it('rejects objects with custom prototypes', () => {
         expect(() => sameShape([new Date()])).toThrow(TypeError)
         expect(() => sameShape([[]])).toThrow(TypeError)
+        expect(() => sameShape([null as unknown as object])).toThrow(TypeError)
     })
 })
-

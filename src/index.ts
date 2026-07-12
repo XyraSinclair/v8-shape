@@ -118,6 +118,9 @@ function isBeforeEnd(value: number, end: number, step: number): boolean {
 
 function rangeByLength(start: number, end: number, step: number): number {
     let length = Math.ceil((end - start) / step)
+    if (!Number.isFinite(length)) {
+        throw new RangeError('rangeBy result length exceeds the maximum array length')
+    }
 
     // Make the end-exclusive rule depend on the documented per-index value,
     // even when the division used for the first estimate rounds at a boundary.
@@ -166,6 +169,9 @@ export function times<T>(n: number, fn: (index: number) => T): T[] {
 type PlainObject = Record<string, unknown>
 
 function assertPlainObject(value: object, index: number): void {
+    if (value === null || typeof value !== 'object') {
+        throw new TypeError(`sameShape value at index ${index} is not an object`)
+    }
     const prototype = Object.getPrototypeOf(value)
     if (prototype !== Object.prototype && prototype !== null) {
         throw new TypeError(`sameShape object at index ${index} is not a plain object`)
@@ -218,4 +224,3 @@ export function sameShape<T extends object>(objects: readonly T[]): T[] {
 
     return results
 }
-
