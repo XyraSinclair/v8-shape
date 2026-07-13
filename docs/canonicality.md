@@ -1,6 +1,6 @@
 # Publication canonicality
 
-This file is the release gate for `v8-shape@0.1.0`.
+This file is the release gate for `@xyrasinclair/v8-shape@0.1.0`.
 
 | Area | Requirement | Status | Evidence |
 |---|---|---|---|

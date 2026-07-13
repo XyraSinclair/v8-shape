@@ -1,5 +1,5 @@
 {
-    "name": "v8-shape",
+    "name": "@xyrasinclair/v8-shape",
     "version": "0.1.0",
     "description": "Mechanical-sympathy primitives for packed V8 arrays and monomorphic plain-object shapes, with engine-level receipts.",
     "keywords": [

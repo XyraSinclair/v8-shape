@@ -18,7 +18,7 @@ import {
     releaseCaches,
     sameShape,
     times,
-} from 'v8-shape'
+} from '@xyrasinclair/v8-shape'
 
 newPackedSmi(4)       // [0, 0, 0, 0] — PACKED_SMI_ELEMENTS
 newPackedDouble(4)    // [0, 0, 0, 0] — PACKED_DOUBLE_ELEMENTS
@@ -167,7 +167,7 @@ For the implementation and measurement rationale, see [DESIGN.md](./DESIGN.md).
 ## Install
 
 ```sh
-npm install v8-shape
+npm install @xyrasinclair/v8-shape
 ```
 
 ## License
