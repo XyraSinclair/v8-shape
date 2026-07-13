@@ -33,7 +33,7 @@ sameShape([{ z: 1, a: 2 }, { a: 3, z: 4 }])
 releaseCaches() // drop the retained allocation templates
 ```
 
-## The honest value proposition
+## Value proposition
 
 `new Array(n).fill(0)` **also produces packed SMI elements on Node 24's V8**.
 There, `fill` converts the initially holey array to packed. (The Node 18 and 22
@@ -94,10 +94,10 @@ without making it holey.
 
 The module lazily retains one template per kind, initially 2,048 entries and
 growing to at most 32,768. V8's backing-store capacity and accounting are
-engine details, but the three caches can retain roughly 0.8-1.6 MB at ceiling depending
-on the V8 build (0.84 MB measured on Node 24). `releaseCaches()` clears all three module references; arrays
-already returned are independent and unaffected. A later allocation recreates
-the cache it needs.
+engine details, but the three caches can retain roughly 0.8–1.6 MB at ceiling,
+depending on the V8 build (0.84 MB measured on Node 24). `releaseCaches()`
+clears all three module references; arrays already returned are independent
+and unaffected. A later allocation recreates the cache it needs.
 
 ### Ranges and mapping
 
@@ -163,6 +163,12 @@ correct arrays and objects, but their representations and performance are
 unverified.
 
 For the implementation and measurement rationale, see [DESIGN.md](./DESIGN.md).
+
+## Install
+
+```sh
+npm install v8-shape
+```
 
 ## License
 

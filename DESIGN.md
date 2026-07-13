@@ -48,9 +48,10 @@ three public allocators return the original API's zero values.
 
 Templates are lazy. Each starts at 2,048 entries, may grow to 32,768, and is
 held until `releaseCaches()` clears its module reference. Approximate retained
-memory measured 0.84 MB (Node 24) to ~1.6 MB for all three at their ceilings depending on the V8 build, in the
-origin code; exact backing capacity and tagged-value width belong to V8 and
-can vary. Returned arrays never alias a template.
+memory measured 0.84 MB on Node 24 and up to roughly 1.6 MB across V8 builds
+for all three templates at their ceilings. Exact backing capacity and
+tagged-value width belong to V8 and can vary. Returned arrays never alias a
+template.
 
 ### What `fill(0)` changed
 
